@@ -14,8 +14,8 @@ import '../../home/components/service_card.dart';
 import '../../services/service_details_page.dart';
 import '../../utils/constant_colors.dart';
 
-class SearchBar extends StatelessWidget {
-  const SearchBar({Key? key}) : super(key: key);
+class SearchBarAllService extends StatelessWidget {
+  const SearchBarAllService({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

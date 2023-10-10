@@ -315,11 +315,35 @@ class _TicketChatPageState extends State<TicketChatPage> {
                   child: Row(
                     children: <Widget>[
                       pickedImage != null
-                          ? Image.file(
-                              File(pickedImage!.path),
-                              height: 40,
-                              width: 40,
-                              fit: BoxFit.cover,
+                          ? GestureDetector(
+                              onTap: () {
+                                pickedImage = null;
+                                setState(() {});
+                              },
+                              child: Stack(
+                                alignment: Alignment.topRight,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.all(4),
+                                    child: Image.file(
+                                      File(pickedImage!.path),
+                                      height: 36,
+                                      width: 36,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  CircleAvatar(
+                                    radius: 10,
+                                    backgroundColor:
+                                        cc.warningColor.withOpacity(1),
+                                    child: const Icon(
+                                      Icons.close,
+                                      size: 10,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                ],
+                              ),
                             )
                           : Container(),
                       const SizedBox(

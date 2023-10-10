@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import 'package:pusher_beams/pusher_beams.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../view/home/landing_page.dart';
@@ -38,11 +39,11 @@ class GoogleSignInService with ChangeNotifier {
     if (googleUser == null) return;
     _user = googleUser;
 
-    final googleAuth = await googleUser.authentication;
-    final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+    // final googleAuth = await googleUser.authentication;
+    // final credential = GoogleAuthProvider.credential(
+    //     accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
 
-    await FirebaseAuth.instance.signInWithCredential(credential);
+    // await FirebaseAuth.instance.signInWithCredential(credential);
 
     // try to login with the info
     if (_user != null) {
@@ -76,6 +77,7 @@ class GoogleSignInService with ChangeNotifier {
         'id': id,
         'isGoogle': isGoogle
       });
+      log(data.toString());
       var header = {
         //if header type is application/json then the data should be in jsonEncode method
         "Accept": "application/json",
@@ -98,6 +100,10 @@ class GoogleSignInService with ChangeNotifier {
         var pusherInstance =
             Provider.of<PushNotificationService>(context, listen: false)
                 .pusherInstance;
+
+        if (pusherInstance != null) {
+          await PusherBeams.instance.start(pusherInstance);
+        }
         Navigator.pushReplacement<void, void>(
           context,
           MaterialPageRoute<void>(

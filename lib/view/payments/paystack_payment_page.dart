@@ -102,10 +102,7 @@ class PaystackPaymentPage extends StatelessWidget {
 
                     return;
                   }
-                  if (response.body.contains('Declined')) {
-                    await Provider.of<PlaceOrderService>(context, listen: false)
-                        .doNext(context, 'failed', paymentFailed: true);
-                  }
+                  if (response.body.contains('Declined')) {}
                 },
                 navigationDelegate: (navRequest) async {
                   print('nav req to .......................${navRequest.url}');

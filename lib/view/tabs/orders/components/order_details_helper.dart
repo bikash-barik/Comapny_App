@@ -9,7 +9,8 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class OrderDetailsHelper {
   final cc = ConstantColors();
 
-  deletePopup(BuildContext context, {required extraId, required orderId}) {
+  deletePopup(BuildContext context,
+      {required extraId, required orderId, warningText}) {
     return Alert(
         context: context,
         style: AlertStyle(
@@ -61,8 +62,9 @@ class OrderDetailsHelper {
                         width: 16,
                       ),
                       Expanded(
-                          child: CommonHelper()
-                              .buttonOrange(asProvider.getString('Delete'), () {
+                          child: CommonHelper().buttonOrange(
+                              asProvider.getString(warningText ?? 'Delete'),
+                              () {
                         provider.declineOrderExtra(context,
                             extraId: extraId, orderId: orderId);
                       }, isloading: provider.isLoading, bgColor: Colors.red)),

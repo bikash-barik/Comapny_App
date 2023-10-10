@@ -49,6 +49,8 @@ class UserDetails {
     this.phone,
     this.address,
     this.about,
+    this.googleId,
+    this.facebookId,
     this.countryId,
     this.serviceCity,
     this.serviceArea,
@@ -67,6 +69,8 @@ class UserDetails {
   String? address;
   dynamic about;
   int? countryId;
+  dynamic googleId;
+  dynamic facebookId;
   String? serviceCity;
   String? serviceArea;
   String? postCode;
@@ -86,6 +90,8 @@ class UserDetails {
         countryId: json["country_id"],
         serviceCity: json["service_city"],
         serviceArea: json["service_area"],
+        googleId: json["google_id"],
+        facebookId: json["facebook_id"],
         postCode: json["post_code"],
         image: json["image"],
         countryCode: json["country_code"],

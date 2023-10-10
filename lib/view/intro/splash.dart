@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 40,
+                height: 100,
                 width: double.infinity,
                 decoration: const BoxDecoration(
                     image: DecorationImage(

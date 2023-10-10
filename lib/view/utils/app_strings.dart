@@ -439,7 +439,11 @@ var appStrings = {
   "cancelled": "cancelled",
   "Order Not Found": "Order Not Found",
   "Support Ticket Created Success": "Support Ticket Created Success",
-  "Low": "Low",
-  "Low": "Low",
+  "Message:": "Message:",
+  "Password Change Unavailable. We're sorry, but users who have signed up or logged in using their Google or Facebook accounts do not have the option to change their password directly on this platform.":
+      "Password Change Unavailable. We're sorry, but users who have signed up or logged in using their Google or Facebook accounts do not have the option to change their password directly on this platform.",
+  "Payment cancelled!": "Payment cancelled!",
+  "Payment has been expired.": "Payment has been expired.",
+  "Payment has been cancelled.": "Payment has been cancelled.",
   "Low": "Low",
 };

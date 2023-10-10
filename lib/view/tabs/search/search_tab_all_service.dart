@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
-import 'package:qixer/view/search/components/search_bar.dart' as sb;
+import 'package:qixer/view/search/components/search_bar.dart' as sb1;
+import 'package:qixer/view/search/components/search_bar_all_service.dart' as sb;
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 
-class SearchTab extends StatefulWidget {
-  const SearchTab({Key? key}) : super(key: key);
+class SearchTabAllService extends StatefulWidget {
+  const SearchTabAllService({Key? key}) : super(key: key);
 
   @override
-  _SearchTabState createState() => _SearchTabState();
+  _SearchTabAllServiceState createState() => _SearchTabAllServiceState();
 }
 
-class _SearchTabState extends State<SearchTab> {
+class _SearchTabAllServiceState extends State<SearchTabAllService> {
   @override
   void initState() {
     super.initState();
@@ -48,7 +49,7 @@ class _SearchTabState extends State<SearchTab> {
                         CommonHelper().titleCommon(
                             asProvider.getString('Search services')),
                         sizedBox20(),
-                        const sb.SearchBar(),
+                        const sb.SearchBarAllService(),
                       ]),
                 ),
               ),

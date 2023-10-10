@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto/crypto.dart';
@@ -112,13 +113,23 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   }
 
   void onEvent(PusherEvent event) {
-    print('message received::: $event');
+    debugPrint('message received::: $event');
+    final cmProvider = Provider.of<ChatMessagesService>(context, listen: false);
     //add message to message list to show in the ui
     final messageReceived = jsonDecode(event.data)['message']['message'];
+    final attachment = jsonDecode(event.data)['message']['image_url'];
+    log(jsonDecode(event.data)['message'].toString());
     final receivedUserId = jsonDecode(event.data)['message']['from_user']['id'];
     if (receivedUserId == widget.receiverId) {
-      Provider.of<ChatMessagesService>(context, listen: false)
-          .addNewMessage(messageReceived, null, receivedUserId);
+      cmProvider.addNewSellerMessage(messageReceived,
+          attachment?.isNotEmpty ?? false ? attachment : null, receivedUserId);
+      return;
+    }
+    if (receivedUserId == widget.receiverId &&
+        receivedUserId == widget.currentUserId &&
+        messageReceived != cmProvider.messagesList.last) {
+      cmProvider.addNewSellerMessage(messageReceived,
+          attachment?.isNotEmpty ?? false ? attachment : null, receivedUserId);
     }
   }
 
@@ -199,9 +210,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
           return Stack(
             children: [
               provider.isloading == false
-                  ?
-                  //chat messages
-                  Container(
+                  ? Container(
                       margin: const EdgeInsets.only(bottom: 60),
                       child: SmartRefresher(
                         controller: refreshController,
@@ -302,38 +311,42 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
                                                           : CrossAxisAlignment
                                                               .end),
                                                   children: [
-                                                    Container(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20),
-                                                        color: (messageData[
-                                                                    'fromUser'] !=
-                                                                widget
-                                                                    .currentUserId
-                                                            ? Colors
-                                                                .grey.shade200
-                                                            : cc.primaryColor),
+                                                    if (messageData[
+                                                            'message'] !=
+                                                        null)
+                                                      Container(
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
+                                                          color: (messageData[
+                                                                      'fromUser'] !=
+                                                                  widget
+                                                                      .currentUserId
+                                                              ? Colors
+                                                                  .grey.shade200
+                                                              : cc.primaryColor),
+                                                        ),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(16),
+                                                        //message =====>
+                                                        child: Text(
+                                                          messageData['message']
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              fontSize: 15,
+                                                              color: (messageData[
+                                                                          'fromUser'] !=
+                                                                      widget
+                                                                          .currentUserId
+                                                                  ? Colors
+                                                                      .grey[800]
+                                                                  : Colors
+                                                                      .white)),
+                                                        ),
                                                       ),
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              16),
-                                                      //message =====>
-                                                      child: Text(
-                                                        messageData['message']
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontSize: 15,
-                                                            color: (messageData[
-                                                                        'fromUser'] !=
-                                                                    widget
-                                                                        .currentUserId
-                                                                ? Colors
-                                                                    .grey[800]
-                                                                : Colors
-                                                                    .white)),
-                                                      ),
-                                                    ),
                                                     messageData['attachment'] !=
                                                             null
                                                         ? Container(

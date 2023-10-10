@@ -34,7 +34,7 @@ class _JobRequestPageState extends State<JobRequestPage> {
   final RefreshController refreshController =
       RefreshController(initialRefresh: true);
 
-  List menuNames = ['View details', 'Conversation', 'Hire now'];
+  List menuNames = ['View details', 'About seller', 'Conversation', 'Hire now'];
 
   @override
   Widget build(BuildContext context) {
@@ -363,7 +363,60 @@ class _JobRequestPageState extends State<JobRequestPage> {
                                                             menuNames[0])),
                                                   ),
 
-                                                  //Conversation
+                                                  //About seller
+                                                  PopupMenuItem(
+                                                    onTap: () async {
+                                                      await Future.delayed(
+                                                          const Duration(
+                                                              microseconds:
+                                                                  10));
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (ctx) {
+                                                          final element =
+                                                              provider
+                                                                  .jobReqList[i];
+                                                          final seller = provider
+                                                              .jobReqList[i]
+                                                              .seller as Seller;
+                                                          return AlertDialog(
+                                                              // title: Text(
+                                                              //     lnProvider
+                                                              //         .getString(
+                                                              //             '')),
+                                                              content:
+                                                                  SellerInfo(
+                                                            sellerId: seller.id,
+                                                            sellerName:
+                                                                seller.name ??
+                                                                    '-',
+                                                            imgUrl: element
+                                                                .sellerImage,
+                                                            sellerCountry: element
+                                                                    .sellerCountry ??
+                                                                '-',
+                                                            sellerCity: element
+                                                                    .sellerCity ??
+                                                                '',
+                                                            sellerCompleteOrder:
+                                                                element
+                                                                    .completedOrder,
+                                                            completeOrder: element
+                                                                .completedOrder,
+                                                            orderCompletionRate:
+                                                                element
+                                                                    .orderCompletionRate,
+                                                            createdAt: seller
+                                                                    .createdAt ??
+                                                                DateTime.now(),
+                                                          ));
+                                                        },
+                                                      );
+                                                    },
+                                                    child: Text(
+                                                        lnProvider.getString(
+                                                            menuNames[1])),
+                                                  ),
                                                   PopupMenuItem(
                                                     onTap: () {
                                                       Future.delayed(
@@ -405,7 +458,7 @@ class _JobRequestPageState extends State<JobRequestPage> {
                                                     },
                                                     child: Text(
                                                         lnProvider.getString(
-                                                            menuNames[1])),
+                                                            menuNames[2])),
                                                   ),
 
                                                   //Hire now
@@ -441,7 +494,7 @@ class _JobRequestPageState extends State<JobRequestPage> {
                                                     },
                                                     child: Text(
                                                         lnProvider.getString(
-                                                            menuNames[2])),
+                                                            menuNames[3])),
                                                   ),
                                                 ],
                                               ),

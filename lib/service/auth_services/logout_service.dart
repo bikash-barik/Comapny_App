@@ -41,7 +41,9 @@ class LogoutService with ChangeNotifier {
       );
       if (response.statusCode == 201) {
         notifyListeners();
-        await PusherBeams.instance.clearAllState();
+        try {
+          await PusherBeams.instance.clearAllState();
+        } catch (e) {}
 
         Navigator.pushAndRemoveUntil<dynamic>(
           context,

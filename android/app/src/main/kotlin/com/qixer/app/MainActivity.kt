@@ -1,4 +1,4 @@
-package com.qixer.app
+package com.gippyservice.gippy_buyer
 
 import io.flutter.embedding.android.FlutterActivity
 

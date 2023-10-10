@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -157,7 +158,7 @@ class ChatMessagesService with ChangeNotifier {
       formData = FormData.fromMap({
         'to_user': toUser,
         'message': message,
-        'file': await MultipartFile.fromFile(imagePath,
+        'image': await MultipartFile.fromFile(imagePath,
             filename: 'ticket$imagePath.jpg')
       });
     } else {
@@ -184,12 +185,14 @@ class ChatMessagesService with ChangeNotifier {
       setSendLoadingFalse();
 
       if (response.statusCode == 200) {
-        print(response.data);
+        log(response.data.toString());
         SharedPreferences prefs = await SharedPreferences.getInstance();
         var currentUserId = prefs.getInt('userId')!;
         addNewMessage(message, imagePath, currentUserId);
 
-        sendNotification(context, sellerId: toUser, msg: message);
+        sendNotification(context,
+            sellerId: toUser,
+            msg: lnProvider.getString('Message:') + ' ' + message);
         return true;
       } else {
         OthersHelper().showToast('Something went wrong', Colors.black);
@@ -212,6 +215,19 @@ class ChatMessagesService with ChangeNotifier {
       'fromUser': userId,
       'imagePicked': imagePath !=
           null //check if this image is just got picked from device in that case we will show it from device location
+    });
+    notifyListeners();
+  }
+
+  addNewSellerMessage(message, imagePath, userId) async {
+    print(imagePath);
+    messagesList.insert(0, {
+      'id': '',
+      'message': message,
+      'attachment': imagePath,
+      'fromUser': userId,
+      'imagePicked':
+          false //check if this image is just got picked from device in that case we will show it from device location
     });
     notifyListeners();
   }

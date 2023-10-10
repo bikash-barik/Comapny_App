@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/auth_services/change_pass_service.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
@@ -36,6 +37,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final pProvider = Provider.of<ProfileService>(context, listen: false)
+        .profileDetails
+        .userDetails;
     ConstantColors cc = ConstantColors();
     return Scaffold(
       appBar: CommonHelper().appbarCommon('Change password', context, () {
@@ -64,6 +68,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        if (pProvider?.googleId != null ||
+                            pProvider?.facebookId != null)
+                          CommonHelper().paragraphCommon(
+                              asProvider.getString(
+                                  "Password Change Unavailable. We're sorry, but users who have signed up or logged in using their Google or Facebook accounts do not have the option to change their password directly on this platform."),
+                              color: cc.warningColor),
+                        sizedBoxCustom(20),
                         //New password =========================>
                         CommonHelper().labelCommon(
                             asProvider.getString("Enter current password")),
@@ -306,6 +317,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           builder: (context, provider, child) => CommonHelper()
                               .buttonOrange(
                                   asProvider.getString('Change password'), () {
+                            if (pProvider?.googleId != null ||
+                                pProvider?.facebookId != null) {
+                              return;
+                            }
                             if (provider.isloading == false) {
                               provider.changePassword(
                                   currentPasswordController.text,
@@ -316,7 +331,11 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                           },
                                   isloading: provider.isloading == false
                                       ? false
-                                      : true),
+                                      : true,
+                                  bgColor: pProvider?.googleId != null ||
+                                          pProvider?.facebookId != null
+                                      ? cc.greyFive
+                                      : null),
                         ),
 
                         const SizedBox(

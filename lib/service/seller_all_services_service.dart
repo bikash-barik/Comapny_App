@@ -64,8 +64,8 @@ class SellerAllServicesService with ChangeNotifier {
       String apiLink =
           '$baseApi/services-by-seller-id?seller_id=$sellerId?page=$currentPage';
       var response = await http.get(Uri.parse(apiLink));
-      print(response.statusCode);
-      if (response.statusCode == 200) {
+      print(response.body);
+      if (response.statusCode == 200 || response.statusCode == 201) {
         var data = SellerAllServiceModel.fromJson(jsonDecode(response.body));
 
         setTotalPage(data.services.lastPage);
@@ -99,6 +99,7 @@ class SellerAllServicesService with ChangeNotifier {
         }
 
         currentPage++;
+        hasError = serviceMap.isEmpty;
         setCurrentPage(currentPage);
         return true;
       } else {

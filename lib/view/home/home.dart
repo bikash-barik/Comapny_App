@@ -18,8 +18,16 @@ import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/responsive.dart';
 
+import '../../service/searchbar_with_dropdown_service.dart';
+import '../../service/service_details_service.dart';
+import '../services/all_services_page.dart';
+import '../services/service_details_page.dart';
+import '../tabs/search/search_tab_all_service.dart';
 import '../utils/constant_styles.dart';
+import '../utils/others_helper.dart';
+import 'components/all_services.dart';
 import 'components/section_title.dart';
+import 'components/service_card.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -143,6 +151,12 @@ class _HomepageState extends State<Homepage> {
                       margin: const EdgeInsets.only(bottom: 15),
                       child: InkWell(
                           onTap: () {
+                            Provider.of<SearchBarWithDropdownService>(context,
+                                    listen: false)
+                                .resetSearchParams();
+                            Provider.of<SearchBarWithDropdownService>(context,
+                                    listen: false)
+                                .fetchService(context);
                             Navigator.push(
                                 context,
                                 PageTransition(
@@ -159,6 +173,7 @@ class _HomepageState extends State<Homepage> {
                       height: 10,
                     ),
                     CommonHelper().dividerCommon(),
+
                     const SizedBox(
                       height: 25,
                     ),
@@ -222,13 +237,197 @@ class _HomepageState extends State<Homepage> {
                             asProvider: asProvider,
                           ),
 
+                          AllSecServices(
+                            cc: cc,
+                            asProvider: asProvider,
+                          ),
+
                           //Discount images
                           const RecentJobs(),
+                          // sizedBoxCustom(30)
 
-                          sizedBoxCustom(30)
+                          const SizedBox(
+                            height: 30,
+                          ),
+
+                          Consumer<SearchBarWithDropdownService>(
+                            builder: (context, provider, child) {
+                              return Column(
+                                children: [
+                                  SectionTitle(
+                                    cc: cc,
+                                    title: asProvider
+                                        .getString('All Services listed'),
+                                    pressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute<void>(
+                                          builder: (BuildContext context) =>
+                                              const AllServicePage(),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  provider.isLoading == false
+                                      ? provider.serviceMap.isNotEmpty
+                                          ? provider.serviceMap[0] != 'error'
+                                              ? Column(
+                                                  children: [
+                                                    for (int i = 0;
+                                                        i <
+                                                            provider.serviceMap
+                                                                .length;
+                                                        i++)
+                                                      Column(
+                                                        children: [
+                                                          InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () {
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute<
+                                                                    void>(
+                                                                  builder: (BuildContext
+                                                                          context) =>
+                                                                      const ServiceDetailsPage(),
+                                                                ),
+                                                              );
+                                                              Provider.of<ServiceDetailsService>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .fetchServiceDetails(
+                                                                      provider.serviceMap[
+                                                                              i]
+                                                                          [
+                                                                          'serviceId']);
+                                                            },
+                                                            child: ServiceCard(
+                                                              cc: cc,
+                                                              imageLink: provider
+                                                                          .serviceMap[i]
+                                                                      [
+                                                                      'image'] ??
+                                                                  placeHolderUrl,
+                                                              rating: twoDouble(
+                                                                  provider.serviceMap[
+                                                                          i][
+                                                                      'rating']),
+                                                              title: provider
+                                                                      .serviceMap[
+                                                                  i]['title'],
+                                                              sellerName: provider
+                                                                      .serviceMap[i]
+                                                                  [
+                                                                  'sellerName'],
+                                                              price: provider
+                                                                      .serviceMap[
+                                                                  i]['price'],
+                                                              buttonText:
+                                                                  'Book Now',
+                                                              width: double
+                                                                  .infinity,
+                                                              marginRight: 0.0,
+                                                              pressed: () {
+                                                                provider.saveOrUnsave(
+                                                                    provider.serviceMap[i][
+                                                                        'serviceId'],
+                                                                    provider.serviceMap[i][
+                                                                        'title'],
+                                                                    provider.serviceMap[i]
+                                                                        [
+                                                                        'image'],
+                                                                    provider
+                                                                        .serviceMap[i]
+                                                                            [
+                                                                            'price']
+                                                                        .round(),
+                                                                    provider.serviceMap[i]
+                                                                        [
+                                                                        'sellerName'],
+                                                                    twoDouble(provider
+                                                                            .serviceMap[i]
+                                                                        [
+                                                                        'rating']),
+                                                                    i,
+                                                                    context,
+                                                                    provider.serviceMap[i]
+                                                                        ['sellerId']);
+                                                              },
+                                                              isSaved: provider.serviceMap[
+                                                                              i]
+                                                                          [
+                                                                          'isSaved'] ==
+                                                                      true
+                                                                  ? true
+                                                                  : false,
+                                                              serviceId: provider
+                                                                      .serviceMap[i]
+                                                                  ['serviceId'],
+                                                              sellerId: provider
+                                                                      .serviceMap[
+                                                                  i]['sellerId'],
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 25,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                  ],
+                                                )
+                                              : Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              top: 20),
+                                                      child: Text(
+                                                        asProvider.getString(
+                                                            "No result found"),
+                                                        style: TextStyle(
+                                                            color:
+                                                                cc.greyPrimary),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                          : Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  margin: const EdgeInsets.only(
+                                                      top: 20),
+                                                  child: Text(
+                                                    asProvider.getString(
+                                                        "No result found"),
+                                                    style: TextStyle(
+                                                        color: cc.greyPrimary),
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                      : OthersHelper()
+                                          .showLoading(cc.primaryColor)
+                                ],
+                              );
+                            },
+                          )
                         ],
                       ),
                     ),
+
+                    // SearchTabAllService(),
                   ]),
             ),
           ),

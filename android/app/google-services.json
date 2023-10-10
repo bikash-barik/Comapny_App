@@ -1,49 +1,50 @@
 {
   "project_info": {
-    "project_number": "205042334936",
-    "project_id": "qixer-20a27",
-    "storage_bucket": "qixer-20a27.appspot.com"
+    "project_number": "459121000418",
+    "project_id": "qixer-buyer-app",
+    "storage_bucket": "qixer-buyer-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:205042334936:android:84d64efbd3bc34fd4b2bad",
+        "mobilesdk_app_id": "1:459121000418:android:6427657ac38e9c06df43bb",
         "android_client_info": {
-          "package_name": "com.qixer.app"
+          "package_name": "com.gippyservice.gippy_buyer"
         }
       },
       "oauth_client": [
         {
-          "client_id": "205042334936-va974l9n1n63nv5jjuih7gqmquvith3d.apps.googleusercontent.com",
+          "client_id": "459121000418-23rrh89hk8dog02r4jpv8a7a7fkdcm5m.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.qixer.app",
+            "package_name": "com.gippyservice.gippy_buyer",
+            "certificate_hash": "30a06d5b7db695bae46e802ba55c98cff7174e11"
+          }
+        },
+        {
+          "client_id": "459121000418-6c5ls2v4chpjhu806nr76rjvonuvicdm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gippyservice.gippy_buyer",
             "certificate_hash": "6bcce48d491e775a0596cc33bba731e29833a5ca"
           }
         },
         {
-          "client_id": "205042334936-ap9ippue4v404nvuf5k1slpftbcctmt2.apps.googleusercontent.com",
+          "client_id": "459121000418-hli5si8j1e353fdfk0loarat84cttvb0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAd-_-eqI_IR05HuJ1giH14pw-lJSMUYXM"
+          "current_key": "AIzaSyDs8wg76Zym2bJgHQAyZZ9fz8AW95ivI80"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "205042334936-ap9ippue4v404nvuf5k1slpftbcctmt2.apps.googleusercontent.com",
+              "client_id": "459121000418-hli5si8j1e353fdfk0loarat84cttvb0.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "205042334936-3ddg5c7d76negb1idlqm1ofcf416bo88.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.qixerios.app"
-              }
             }
           ]
         }

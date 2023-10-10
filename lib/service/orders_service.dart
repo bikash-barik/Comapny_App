@@ -133,8 +133,8 @@ class OrdersService with ChangeNotifier {
 
       //send notification to seller
 
-      var sellerId = Provider.of<OrderDetailsService>(context, listen: false)
-          .selectedExtraSellerId;
+      // var sellerId = Provider.of<OrderDetailsService>(context, listen: false)
+      //     .selectedExtraSellerId;
 
       var username = Provider.of<ProfileService>(context, listen: false)
               .profileDetails

@@ -70,7 +70,7 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
 dropdownPlaceholder({required String hintText, textWidth}) {
   return Container(
     width: double.infinity,
-    padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 17),
+    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
     decoration: BoxDecoration(
         border: Border.all(
           color: ConstantColors().greyFive,

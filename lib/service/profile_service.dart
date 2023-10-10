@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:qixer/model/profile_model.dart';
@@ -71,7 +72,7 @@ class ProfileService with ChangeNotifier {
 
     var response =
         await http.get(Uri.parse('$baseApi/user/profile'), headers: header);
-
+    log(response.body);
     if (response.statusCode == 201) {
       var data = ProfileModel.fromJson(jsonDecode(response.body));
       profileDetails = data;

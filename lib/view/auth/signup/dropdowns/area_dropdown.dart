@@ -4,6 +4,8 @@ import 'package:qixer/service/dropdowns_services/area_dropdown_service.dart';
 import 'package:qixer/view/auth/signup/dropdowns/area_dropdown_popup.dart';
 import 'package:qixer/view/auth/signup/dropdowns/country_states_dropdowns.dart';
 
+import '../../../utils/responsive.dart';
+
 class AreaDropdown extends StatelessWidget {
   const AreaDropdown({Key? key}) : super(key: key);
 
@@ -15,8 +17,12 @@ class AreaDropdown extends StatelessWidget {
           // p.fetchArea(context, isrefresh: true);
           showModalBottomSheet(
               context: context,
+              isScrollControlled: true,
               builder: (BuildContext context) {
-                return const AreaDropdownPopup();
+                return SizedBox(
+                    height: screenHeight / 2 +
+                        MediaQuery.of(context).viewInsets.bottom / 2,
+                    child: const AreaDropdownPopup());
               });
         },
         child: dropdownPlaceholder(hintText: p.selectedArea),

@@ -4,6 +4,8 @@ import 'package:qixer/service/dropdowns_services/country_dropdown_service.dart';
 import 'package:qixer/view/auth/signup/dropdowns/country_dropdown_popup.dart';
 import 'package:qixer/view/auth/signup/dropdowns/country_states_dropdowns.dart';
 
+import '../../../utils/responsive.dart';
+
 class CountryDropdown extends StatelessWidget {
   final textWidth;
   const CountryDropdown({this.textWidth, Key? key}) : super(key: key);
@@ -16,8 +18,12 @@ class CountryDropdown extends StatelessWidget {
           // p.fetchCountries(context, isrefresh: true);
           showModalBottomSheet(
               context: context,
+              isScrollControlled: true,
               builder: (BuildContext context) {
-                return const CountryDropdownPopup();
+                return SizedBox(
+                    height: screenHeight / 2 +
+                        MediaQuery.of(context).viewInsets.bottom / 2,
+                    child: const CountryDropdownPopup());
               });
         },
         child: dropdownPlaceholder(

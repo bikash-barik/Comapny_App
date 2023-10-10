@@ -9,6 +9,7 @@ import 'package:qixer/service/jobs_service/job_request_service.dart';
 import 'package:qixer/service/order_details_service.dart';
 import 'package:qixer/service/payment_gateway_list_service.dart';
 import 'package:qixer/service/wallet_service.dart';
+import 'package:qixer/view/utils/responsive.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -100,19 +101,38 @@ class MolliePayment extends StatelessWidget {
                       }
                     }
                     if (status == 'open') {
-                      await Provider.of<PlaceOrderService>(context,
-                              listen: false)
-                          .doNext(context, 'failed', paymentFailed: true);
+                      await showDialog(
+                          context: context,
+                          builder: (ctx) {
+                            return AlertDialog(
+                              title: Text(
+                                  lnProvider.getString('Payment cancelled!')),
+                              content: Text(lnProvider
+                                  .getString('Payment has been cancelled.')),
+                            );
+                          });
                     }
                     if (status == 'failed') {
-                      await Provider.of<PlaceOrderService>(context,
-                              listen: false)
-                          .doNext(context, 'failed', paymentFailed: true);
+                      await showDialog(
+                          context: context,
+                          builder: (ctx) {
+                            return AlertDialog(
+                              title:
+                                  Text(lnProvider.getString('Payment failed!')),
+                            );
+                          });
                     }
                     if (status == 'expired') {
-                      await Provider.of<PlaceOrderService>(context,
-                              listen: false)
-                          .doNext(context, 'failed', paymentFailed: true);
+                      await showDialog(
+                          context: context,
+                          builder: (ctx) {
+                            return AlertDialog(
+                              title:
+                                  Text(lnProvider.getString('Payment failed!')),
+                              content: Text(lnProvider
+                                  .getString('Payment has been expired.')),
+                            );
+                          });
                     }
                   }
                 },

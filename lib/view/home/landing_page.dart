@@ -72,8 +72,9 @@ class _HomePageState extends State<LandingPage> {
     //init pusher instance
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var userId = prefs.getInt('userId');
-
-    await PusherBeams.instance.addDeviceInterest('debug-buyer$userId');
+    try {
+      await PusherBeams.instance.addDeviceInterest('debug-buyer$userId');
+    } catch (e) {}
   }
 
   Future<void> _checkForInitialMessage(BuildContext context) async {

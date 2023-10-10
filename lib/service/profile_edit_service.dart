@@ -12,7 +12,7 @@ class ProfileEditService with ChangeNotifier {
   String countryCode = 'BD';
 
   setCountryCode(code) {
-    countryCode = code;
+    countryCode = code ?? countryCode;
     // notifyListeners();
   }
 

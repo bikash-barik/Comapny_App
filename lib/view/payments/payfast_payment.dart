@@ -107,6 +107,8 @@ class PayfastPayment extends StatelessWidget {
                       }
                       return;
                     }
+                    await Provider.of<PlaceOrderService>(context, listen: false)
+                        .doNext(context, 'failed', paymentFailed: true);
                   }
                 },
               );

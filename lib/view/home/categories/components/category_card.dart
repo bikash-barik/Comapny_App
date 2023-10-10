@@ -52,21 +52,38 @@ class CategoryCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // SizedBox(
+            //     height: 55,
+            //     // width: double.infinity,
+            //     width: 100,
+
+            //     child: CachedNetworkImage(
+            //       imageUrl: imagelink ?? placeHolderUrl,
+            //       errorWidget: (context, url, error) => const Icon(Icons.error),
+            //       fit: BoxFit.fill,
+            //     )),
             SizedBox(
-                height: 35,
-                width: double.infinity,
+              height: 55,
+              width: 100,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(5.0),
+                  topRight: Radius.circular(5.0),
+                ),
                 child: CachedNetworkImage(
                   imageUrl: imagelink ?? placeHolderUrl,
                   errorWidget: (context, url, error) => const Icon(Icons.error),
-                  fit: BoxFit.fitHeight,
-                )),
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
             const SizedBox(
               height: 5,
             ),
             AutoSizeText(
               name,
               textAlign: TextAlign.center,
-              maxLines: 2,
+              maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: cc.greyFour,

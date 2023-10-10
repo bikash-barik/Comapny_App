@@ -48,23 +48,6 @@ class _ExtrasState extends State<Extras> {
                 InkWell(
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
-                  onTap: () {
-                    if (selectedExtra.contains(i)) {
-                      //if already added then remove
-                      selectedExtra.remove(i);
-
-                      Provider.of<PersonalizationService>(context,
-                              listen: false)
-                          .decreaseExtraItemPrice(context, i);
-                    } else {
-                      selectedExtra.add(i);
-                      Provider.of<PersonalizationService>(context,
-                              listen: false)
-                          .increaseExtraItemPrice(context, i);
-                    }
-
-                    setState(() {});
-                  },
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
@@ -86,15 +69,52 @@ class _ExtrasState extends State<Extras> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              widget.additionalServices[i]['title'],
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: widget.cc.greyParagraph,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedBox(
+                                  width: 125,
+                                  child: Text(
+                                    widget.additionalServices[i]['title'],
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: widget.cc.greyParagraph,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                                Checkbox(
+                                  value: selectedExtra.contains(i),
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  side: BorderSide(color: widget.cc.greyFive),
+                                  activeColor: widget.cc.primaryColor,
+                                  onChanged: (value) {
+                                    if (selectedExtra.contains(i)) {
+                                      //if already added then remove
+                                      selectedExtra.remove(i);
+
+                                      Provider.of<PersonalizationService>(
+                                              context,
+                                              listen: false)
+                                          .decreaseExtraItemPrice(context, i);
+                                    } else {
+                                      selectedExtra.add(i);
+                                      Provider.of<PersonalizationService>(
+                                              context,
+                                              listen: false)
+                                          .increaseExtraItemPrice(context, i);
+                                    }
+
+                                    setState(() {});
+                                  },
+                                )
+                              ],
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -242,12 +262,12 @@ class _ExtrasState extends State<Extras> {
                           ],
                         ),
                       ),
-                      selectedExtra.contains(i)
-                          ? Positioned(
-                              right: 12,
-                              top: -8,
-                              child: CommonHelper().checkCircle())
-                          : Container(),
+                      // selectedExtra.contains(i)
+                      //     ? Positioned(
+                      //         right: 12,
+                      //         top: -8,
+                      //         child: CommonHelper().checkCircle())
+                      //     : Container(),
                     ],
                   ),
                 ),

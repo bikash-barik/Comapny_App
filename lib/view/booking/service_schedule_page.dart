@@ -87,6 +87,39 @@ class _ServiceSchedulePageState extends State<ServiceSchedulePage> {
                             children: [
                               //Circular Progress bar
                               Steps(cc: cc),
+                              // CommonHelper().borderButtonOrange(
+                              //     _selectedDate == null
+                              //         ? asProvider.getString('Select Date')
+                              //         : "${firstThreeLetter(_selectedDate, rtlProvider.langSlug.substring(0, 2)) ?? ''}",
+                              //     () {
+                              //   final now = DateTime.now();
+                              //   showDatePicker(
+                              //           context: context,
+                              //           initialDate: now,
+                              //           firstDate: now,
+                              //           lastDate:
+                              //               now.add(const Duration(days: 365)))
+                              //       .then((value) {
+                              //     if (value == null) {
+                              //       return;
+                              //     }
+                              //     setState(() {
+                              //       _selectedWeekday =
+                              //           firstThreeLetter(value, null);
+                              //       _monthAndDate =
+                              //           getMonthAndDate(value, null);
+                              //       _selectedDate = value;
+                              //     });
+                              //     print(_selectedWeekday);
+
+                              //     //fetch shedule
+                              //     provider.fetchShedule(
+                              //         Provider.of<BookService>(context,
+                              //                 listen: false)
+                              //             .sellerId,
+                              //         _selectedWeekday);
+                              //   });
+                              // }),
 
                               DatePicker(
                                 DateTime.now(),

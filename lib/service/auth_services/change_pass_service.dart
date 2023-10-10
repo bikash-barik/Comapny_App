@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/auth_services/signup_service.dart';
+import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -59,7 +60,12 @@ class ChangePassService with ChangeNotifier {
           Navigator.pop(context);
         } else {
           print(response.body);
-          SignupService().showError(jsonDecode(response.body)['error']);
+          try {
+            SignupService().showError(jsonDecode(response.body)['error']);
+          } catch (e) {
+            OthersHelper().showToast(jsonDecode(response.body)['message'],
+                ConstantColors().warningColor);
+          }
           setLoadingFalse();
         }
       }

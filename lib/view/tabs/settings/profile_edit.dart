@@ -63,6 +63,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     postCodeController.text =
         pProvider.profileDetails.userDetails.postCode ?? '';
     addressController.text = pProvider.profileDetails.userDetails.address ?? '';
+    aboutController.text = pProvider.profileDetails.userDetails.about ?? '';
     Provider.of<CountryDropdownService>(context, listen: false)
         .setCountryBasedOnUserProfile(context);
     Provider.of<StateDropdownService>(context, listen: false)

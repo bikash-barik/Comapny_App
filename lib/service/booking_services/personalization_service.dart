@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -148,6 +149,9 @@ class PersonalizationService with ChangeNotifier {
       var response = await http.get(
           Uri.parse('$baseApi/service-list/service-book/$serviceId'),
           headers: header);
+      print('$baseApi/service-list/service-book/$serviceId');
+
+      log(response.body.toString());
 
       if (response.statusCode == 201) {
         var data = ServiceExtraModel.fromJson(jsonDecode(response.body));
@@ -180,7 +184,7 @@ class PersonalizationService with ChangeNotifier {
         notifyListeners();
         setLoadingFalse();
       } else {
-        serviceExtraData == 'error';
+        serviceExtraData = 'error';
         setLoadingFalse();
         OthersHelper().showToast('Something went wrong', Colors.black);
         notifyListeners();

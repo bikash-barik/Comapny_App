@@ -10,7 +10,8 @@ import '../../service/app_string_service.dart';
 
 //===========================>
 
-String baseApi = 'https://bytesed.com/laravel/qixer/api/v1';
+// String baseApi = 'https://bytesed.com/laravel/qixer/api/v1';
+String baseApi = 'https://gippyservice.com/api/v1';
 
 String placeHolderUrl = 'https://i.postimg.cc/rpsKNndW/New-Project.png';
 String userPlaceHolderUrl =

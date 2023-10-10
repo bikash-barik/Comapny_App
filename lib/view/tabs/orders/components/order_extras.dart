@@ -8,6 +8,8 @@ import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/constant_styles.dart';
 import 'package:qixer/view/utils/responsive.dart';
 
+import '../orders_helper.dart';
+
 class OrderExtras extends StatelessWidget {
   const OrderExtras({Key? key, required this.orderId, required this.sellerId})
       : super(key: key);
@@ -40,7 +42,13 @@ class OrderExtras extends StatelessWidget {
                           CommonHelper().titleCommon(
                               provider.orderExtra[i].title,
                               fontsize: 15),
-                          sizedBoxCustom(5),
+                          sizedBoxCustom(4),
+                          OrdersHelper().statusCapsule(
+                              (lnProvider.getString(extraStatus(
+                                      provider.orderExtra[i].status)) as String)
+                                  .capitalize(),
+                              extraColor(provider.orderExtra[i].status)),
+                          sizedBoxCustom(4),
                           CommonHelper().paragraphCommon(
                             lnProvider.getString("Unit price") +
                                 ': ${rtlProvider.currency}${provider.orderExtra[i].price.toStringAsFixed(2)}    ${lnProvider.getString("Quantity")}: ${provider.orderExtra[i].quantity}    ${lnProvider.getString("Total")}: ${rtlProvider.currency}${provider.orderExtra[i].total.toStringAsFixed(2)}',
@@ -56,8 +64,9 @@ class OrderExtras extends StatelessWidget {
                                         .buttonOrange('Decline', () {
                                   OrderDetailsHelper().deletePopup(context,
                                       extraId: provider.orderExtra[i].id,
-                                      orderId: orderId);
-                                }, bgColor: Colors.red, paddingVerticle: 14)),
+                                      orderId: orderId,
+                                      warningText: "Decline");
+                                }, bgColor: Colors.red, paddingVerticle: 10)),
                                 const SizedBox(
                                   width: 15,
                                 ),
@@ -81,15 +90,48 @@ class OrderExtras extends StatelessWidget {
                                   );
                                 },
                                         bgColor: cc.successColor,
-                                        paddingVerticle: 15)),
+                                        paddingVerticle: 10)),
                               ],
                             ),
-                          sizedBoxCustom(22)
+                          sizedBoxCustom(10),
+                          CommonHelper().dividerCommon(),
+                          sizedBoxCustom(10),
                         ])
                 ],
               ),
             )
           : Container(),
     );
+  }
+
+  extraStatus(status) {
+    String statusString = '';
+    switch (status.toString()) {
+      case "1":
+        statusString = "complete";
+        break;
+      case "2":
+        statusString = "declined";
+        break;
+      default:
+        statusString = "pending";
+    }
+    return statusString;
+  }
+
+  extraColor(status) {
+    ConstantColors cc = ConstantColors();
+    Color statusColor;
+    switch (status.toString()) {
+      case "1":
+        statusColor = cc.successColor;
+        break;
+      case "2":
+        statusColor = cc.warningColor;
+        break;
+      default:
+        statusColor = cc.greyFour;
+    }
+    return statusColor;
   }
 }
