@@ -28,6 +28,7 @@ class RecentJobsService with ChangeNotifier {
       Uri.parse('$baseApi/job/recent-jobs'),
     );
     print('$baseApi/job/recent-jobs');
+    print(response.statusCode);
     if (response.statusCode == 201) {
       var data = RecentJobsModel.fromJson(jsonDecode(response.body));
 

@@ -7,9 +7,12 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/rtl_service.dart';
+import 'package:qixer/view/auth/login/login.dart';
 import 'package:qixer/view/booking/service_personalization_page.dart';
 import 'package:qixer/view/utils/responsive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../service/booking_services/personalization_service.dart';
 import '../../utils/common_helper.dart';
@@ -147,7 +150,7 @@ class ServiceCard extends StatelessWidget {
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: cc.primaryColor, elevation: 0),
-                    onPressed: () {
+                    onPressed: () async {
                       print('service id is $serviceId');
                       //set some data of the service which is clicked, these datas may be needed
                       Provider.of<BookService>(context, listen: false).setData(
@@ -163,11 +166,41 @@ class ServiceCard extends StatelessWidget {
                       Provider.of<PersonalizationService>(context,
                               listen: false)
                           .fetchServiceExtra(serviceId, context);
-                      Navigator.push(
+
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      var token = prefs.getString('token');
+                      if (token == null) {
+                        Navigator.push(
                           context,
                           PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              child: const ServicePersonalizationPage()));
+                            type: PageTransitionType.bottomToTop,
+                            child: const LoginPage(
+                              navigation: 'book',
+                            ),
+                          ),
+                        ).then((value) {
+                          if (value == true) {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: const ServicePersonalizationPage(),
+                              ),
+                            );
+                            Provider.of<ProfileService>(context, listen: false)
+                                .getProfileDetails();
+                          }
+                        });
+                      } else {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: const ServicePersonalizationPage(),
+                          ),
+                        );
+                      }
                     },
                     child: Text(
                       asProvider.getString(buttonText),

@@ -5,6 +5,7 @@ import 'package:pusher_beams/pusher_beams.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/view/auth/login/login.dart';
+import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -48,9 +49,7 @@ class LogoutService with ChangeNotifier {
         Navigator.pushAndRemoveUntil<dynamic>(
           context,
           MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) => const LoginPage(
-              hasBackButton: false,
-            ),
+            builder: (BuildContext context) => const LandingPage(),
           ),
           (route) => false,
         );
@@ -73,5 +72,6 @@ class LogoutService with ChangeNotifier {
   clear() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
+    prefs.setBool('firstOpen', false);
   }
 }

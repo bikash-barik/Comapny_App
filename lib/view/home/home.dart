@@ -139,7 +139,52 @@ class _HomepageState extends State<Homepage> {
                                     )
                                   : Text(asProvider.getString(
                                       'Could not load user profile info'))
-                              : Container(),
+                              : Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 25),
+                                  child: Row(
+                                    children: [
+                                      //name
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '${asProvider.getString('Welcome')}!',
+                                              style: TextStyle(
+                                                color: cc.greyParagraph,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Text(
+                                              'User',
+                                              style: TextStyle(
+                                                color: cc.greyFour,
+                                                fontSize: 19,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      //profile image
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: Image.asset(
+                                          'assets/images/avatar.png',
+                                          height: 52,
+                                          width: 52,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                     ),
 
                     //Search bar ========>
@@ -150,23 +195,25 @@ class _HomepageState extends State<Homepage> {
                       padding: const EdgeInsets.symmetric(horizontal: 25),
                       margin: const EdgeInsets.only(bottom: 15),
                       child: InkWell(
-                          onTap: () {
-                            Provider.of<SearchBarWithDropdownService>(context,
-                                    listen: false)
-                                .resetSearchParams();
-                            Provider.of<SearchBarWithDropdownService>(context,
-                                    listen: false)
-                                .fetchService(context);
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: SearchBarPageWithDropdown(
-                                      cc: cc,
-                                    )));
-                          },
-                          child:
-                              HomepageHelper().searchbar(asProvider, context)),
+                        onTap: () {
+                          Provider.of<SearchBarWithDropdownService>(context,
+                                  listen: false)
+                              .resetSearchParams();
+                          Provider.of<SearchBarWithDropdownService>(context,
+                                  listen: false)
+                              .fetchService(context);
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: SearchBarPageWithDropdown(
+                                cc: cc,
+                              ),
+                            ),
+                          );
+                        },
+                        child: HomepageHelper().searchbar(asProvider, context),
+                      ),
                     ),
 
                     const SizedBox(

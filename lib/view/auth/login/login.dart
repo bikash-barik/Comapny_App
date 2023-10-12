@@ -15,9 +15,14 @@ import '../../../service/auth_services/facebook_login_service.dart';
 import '../../utils/constant_styles.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key, this.hasBackButton = true}) : super(key: key);
+  const LoginPage({
+    Key? key,
+    this.hasBackButton = true,
+    this.navigation,
+  }) : super(key: key);
 
   final hasBackButton;
+  final String? navigation;
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -255,10 +260,12 @@ class _LoginPageState extends State<LoginPage> {
                             if (provider.isloading == false) {
                               if (_formKey.currentState!.validate()) {
                                 provider.login(
-                                    emailController.text.trim(),
-                                    passwordController.text,
-                                    context,
-                                    keepLoggedIn);
+                                  emailController.text.trim(),
+                                  passwordController.text,
+                                  context,
+                                  keepLoggedIn,
+                                  navigation: widget.navigation,
+                                );
 
                                 // Navigator.pushReplacement<void, void>(
                                 //   context,
