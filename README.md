@@ -1,4 +1,4 @@
-# qixer
+# GippyService Buyer
 
 A new Flutter project.
 
