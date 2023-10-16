@@ -4,6 +4,9 @@ import 'package:qixer/view/intro/intro_helper.dart';
 import 'package:qixer/view/utils/common_helper.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
 import 'package:qixer/view/utils/responsive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../home/landing_page.dart';
 
 class IntroductionPage extends StatefulWidget {
   const IntroductionPage({Key? key}) : super(key: key);
@@ -121,11 +124,18 @@ class _IntroductionPageState extends State<IntroductionPage> {
             children: [
               Expanded(
                 child: InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.setBool('firstOpen', false);
                     Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
-                            builder: (context) => const LoginPage()),
+                            builder: (context) => const LandingPage()),
                         (Route<dynamic> route) => false);
+                    // Navigator.of(context).pushAndRemoveUntil(
+                    //     MaterialPageRoute(
+                    //         builder: (context) => const LoginPage()),
+                    //     (Route<dynamic> route) => false);
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -149,12 +159,19 @@ class _IntroductionPageState extends State<IntroductionPage> {
               ),
               Expanded(
                 child: InkWell(
-                  onTap: () {
+                  onTap: () async {
                     if (_selectedSlide == 2) {
-                      Navigator.push(
-                          context,
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.setBool('firstOpen', false);
+                      Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                              builder: (context) => const LoginPage()));
+                              builder: (context) => const LandingPage()),
+                          (Route<dynamic> route) => false);
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const LoginPage()));
                     } else {
                       _pageController.animateToPage(_selectedSlide + 1,
                           duration: const Duration(milliseconds: 300),

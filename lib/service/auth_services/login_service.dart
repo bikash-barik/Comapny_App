@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:pusher_beams/pusher_beams.dart';
 import 'package:qixer/service/common_service.dart';
 import 'package:qixer/service/pay_services/stripe_service.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/push_notification_service.dart';
 import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/utils/constant_colors.dart';
@@ -26,7 +27,7 @@ class LoginService with ChangeNotifier {
   }
 
   Future<bool> login(email, pass, BuildContext context, bool keepLoggedIn,
-      {isFromLoginPage = true}) async {
+      {isFromLoginPage = true, required String? navigation}) async {
     var connection = await checkConnection();
     if (connection) {
       setLoadingTrue();
@@ -43,15 +44,11 @@ class LoginService with ChangeNotifier {
       var response = await http.post(Uri.parse('$baseApi/login'),
           body: data, headers: header);
 
+      print('**************************************************');
       print(response.body);
+      print('**************************************************');
 
       if (response.statusCode == 201) {
-        if (isFromLoginPage) {
-          OthersHelper()
-              .showToast("Login successful", ConstantColors().successColor);
-        }
-        setLoadingFalse();
-
         String token = jsonDecode(response.body)['token'];
         int userId = jsonDecode(response.body)['users']['id'];
         String state = jsonDecode(response.body)['users']['state'].toString();
@@ -61,7 +58,7 @@ class LoginService with ChangeNotifier {
         if (keepLoggedIn) {
           saveDetails(email, pass, token, userId, state, countryId);
         } else {
-          setKeepLoggedInFalseSaveToken(token);
+          setKeepLoggedInFalseSaveToken(token, userId);
         }
 
         //start pusher
@@ -81,14 +78,23 @@ class LoginService with ChangeNotifier {
         var publishableKey = await StripeService().getStripeKey();
         Stripe.publishableKey = publishableKey;
         Stripe.instance.applySettings();
+        if (isFromLoginPage) {
+          OthersHelper()
+              .showToast("Login successful", ConstantColors().successColor);
+        }
+        setLoadingFalse();
 
         // =======>
-        Navigator.pushReplacement<void, void>(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => const LandingPage(),
-          ),
-        );
+        if (navigation == 'book') {
+          Navigator.of(context).pop(true);
+        } else {
+          Navigator.pushReplacement<void, void>(
+            context,
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) => const LandingPage(),
+            ),
+          );
+        }
 
         return true;
       } else {
@@ -122,9 +128,10 @@ class LoginService with ChangeNotifier {
     print('user state id is $state');
   }
 
-  setKeepLoggedInFalseSaveToken(token) async {
+  setKeepLoggedInFalseSaveToken(token, userId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('keepLoggedIn', false);
     prefs.setString("token", token);
+    prefs.setInt('userId', userId);
   }
 }

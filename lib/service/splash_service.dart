@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer/service/auth_services/google_sign_service.dart';
 import 'package:qixer/service/auth_services/login_service.dart';
 import 'package:qixer/view/auth/login/login.dart';
+import 'package:qixer/view/home/landing_page.dart';
 import 'package:qixer/view/intro/introduction_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,8 +13,9 @@ class SplashService {
   loginOrGoHome(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? keepLogin = prefs.getBool('keepLoggedIn');
+    bool? firstOpen = prefs.getBool('firstOpen');
     String? email = prefs.getString('email');
-    if (keepLogin == null) {
+    if (firstOpen == null) {
       //that means user is opening the app for the first time.. so , show the intro
       Future.delayed(const Duration(seconds: 2), () {
         Navigator.pushReplacement<void, void>(
@@ -23,15 +25,21 @@ class SplashService {
           ),
         );
       });
-    } else if (keepLogin == false) {
-      Future.delayed(const Duration(seconds: 2), () {
-        Navigator.pushReplacement<void, void>(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => const LoginPage(),
-          ),
-        );
-      });
+    } else if (firstOpen == false) {
+      Navigator.pushReplacement<void, void>(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => const LandingPage(),
+        ),
+      );
+      // Future.delayed(const Duration(seconds: 2), () {
+      //   Navigator.pushReplacement<void, void>(
+      //     context,
+      //     MaterialPageRoute<void>(
+      //       builder: (BuildContext context) => const LoginPage(),
+      //     ),
+      //   );
+      // });
     } else {
       //check if user logged in with the google or facebook
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -54,7 +62,7 @@ class SplashService {
         String? email = prefs.getString('email');
         String? pass = prefs.getString('pass');
         var result = await Provider.of<LoginService>(context, listen: false)
-            .login(email, pass, context, true, isFromLoginPage: false);
+            .login(email, pass, context, true, isFromLoginPage: false, navigation: null);
 
         if (result == false) {
           //if login failed
@@ -66,6 +74,11 @@ class SplashService {
           );
         }
       }
+    }
+
+    if(keepLogin == false) {
+      prefs.clear();
+      prefs.setBool('firstOpen', false);
     }
   }
 }

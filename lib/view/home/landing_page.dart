@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:pusher_beams/pusher_beams.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/push_notification_service.dart';
 import 'package:qixer/service/searchbar_with_dropdown_service.dart';
+import 'package:qixer/view/auth/login/login.dart';
 import 'package:qixer/view/home/home.dart';
 import 'package:qixer/view/notification/push_notification_helper.dart';
 import 'package:qixer/view/tabs/saved_item_page.dart';
@@ -23,29 +26,65 @@ class LandingPage extends StatefulWidget {
 }
 
 class _HomePageState extends State<LandingPage> {
+  // String? token;
+
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
+    // setToken();
     initPusherBeams(context);
     setChatSellerId(null);
+    super.initState();
   }
+
+  // Future<void> setToken() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     token = prefs.getString('token');
+  //   });
+  // }
 
   DateTime? currentBackPressTime;
 
-  void onTabTapped(int index) {
+  Future<void> onTabTapped(int index) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var token = prefs.getString('token');
+
     if (index == 3) {
       Provider.of<SearchBarWithDropdownService>(context, listen: false)
           .resetSearchParams();
       Provider.of<SearchBarWithDropdownService>(context, listen: false)
           .fetchService(context);
     }
-    setState(() {
-      _currentIndex = index;
-    });
+
+    if ((index == 1 || index == 4) && token == null) {
+      Navigator.push(
+        context,
+        PageTransition(
+          type: PageTransitionType.bottomToTop,
+          child: const LoginPage(
+            navigation: 'book',
+          ),
+        ),
+      ).then((value) {
+        if (value == true) {
+          setState(() {
+            _currentIndex = index;
+          });
+
+          Provider.of<ProfileService>(context, listen: false)
+              .getProfileDetails();
+        }
+      });
+    } else {
+      setState(() {
+        _currentIndex = index;
+      });
+    }
   }
 
   int _currentIndex = 0;
+
   //Bottom nav pages
   final List<Widget> _children = [
     const Homepage(),

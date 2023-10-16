@@ -12,7 +12,9 @@ import 'package:qixer/service/jobs_service/recent_jobs_service.dart';
 import 'package:qixer/service/permissions_service.dart';
 import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/rtl_service.dart';
+import 'package:qixer/service/searchbar_with_dropdown_service.dart';
 import 'package:qixer/view/utils/others_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 late bool isIos;
 
@@ -95,7 +97,15 @@ runAtHome(BuildContext context) async {
       .fetchRecentService();
   Provider.of<RecentJobsService>(context, listen: false)
       .fetchRecentJobs(context);
-  Provider.of<ProfileService>(context, listen: false).getProfileDetails();
+  Provider.of<SearchBarWithDropdownService>(context, listen: false)
+      .fetchService(context);
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var token = prefs.getString('token');
+
+  if(token != null) {
+    Provider.of<ProfileService>(context, listen: false).getProfileDetails();
+  }
+
   // Provider.of<CountryStatesService>(context, listen: false)
   //     .fetchCountries(context);
 

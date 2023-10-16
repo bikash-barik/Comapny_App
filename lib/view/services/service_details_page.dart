@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer/service/app_string_service.dart';
 import 'package:qixer/service/booking_services/book_service.dart';
+import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/service_details_service.dart';
+import 'package:qixer/view/auth/login/login.dart';
 import 'package:qixer/view/booking/service_personalization_page.dart';
 import 'package:qixer/view/live_chat/chat_message_page.dart';
 import 'package:qixer/view/services/components/about_seller_tab.dart';
@@ -33,6 +36,7 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _tabIndex = 0;
+
   @override
   void dispose() {
     _tabController.dispose();
@@ -192,7 +196,7 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                     Expanded(
                                       child: CommonHelper().buttonOrange(
                                           asProvider.getString(
-                                              'Book Appointment'), () {
+                                              'Book Appointment'), () async {
                                         print(
                                             'seller id ${provider.serviceAllDetails.serviceDetails.sellerId}');
                                         Provider.of<BookService>(context,
@@ -233,13 +237,45 @@ class _ServiceDetailsPageState extends State<ServiceDetailsPage>
                                                 context);
 
                                         //=============>
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute<void>(
-                                            builder: (BuildContext context) =>
-                                                const ServicePersonalizationPage(),
-                                          ),
-                                        );
+                                        SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        var token = prefs.getString('token');
+                                        if (token == null) {
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              type: PageTransitionType
+                                                  .bottomToTop,
+                                              child: const LoginPage(
+                                                navigation: 'book',
+                                              ),
+                                            ),
+                                          ).then((value) {
+                                            if (value == true) {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute<void>(
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      const ServicePersonalizationPage(),
+                                                ),
+                                              );
+                                              Provider.of<ProfileService>(
+                                                      context,
+                                                      listen: false)
+                                                  .getProfileDetails();
+                                            }
+                                          });
+                                        } else {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute<void>(
+                                              builder: (BuildContext context) =>
+                                                  const ServicePersonalizationPage(),
+                                            ),
+                                          );
+                                        }
                                       }),
                                     ),
 
@@ -277,19 +313,50 @@ class ServiceDetailsChatIcon extends StatelessWidget {
       builder: (context, provider, child) => InkWell(
         onTap: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          var currentUserId = prefs.getInt('userId')!;
-
-          //======>
-          Navigator.push(
-            context,
-            MaterialPageRoute<void>(
-              builder: (BuildContext context) => ChatMessagePage(
-                receiverId: provider.sellerId,
-                currentUserId: currentUserId,
-                userName: provider.serviceAllDetails.serviceSellerName,
+          var token = prefs.getString('token');
+          if (token == null) {
+            Navigator.push(
+              context,
+              PageTransition(
+                type: PageTransitionType.bottomToTop,
+                child: const LoginPage(
+                  navigation: 'book',
+                ),
               ),
-            ),
-          );
+            ).then((value) {
+              if (value == true) {
+                var currentUserId = prefs.getInt('userId')!;
+
+                //======>
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => ChatMessagePage(
+                      receiverId: provider.sellerId,
+                      currentUserId: currentUserId,
+                      userName: provider.serviceAllDetails.serviceSellerName,
+                    ),
+                  ),
+                );
+                Provider.of<ProfileService>(context, listen: false)
+                    .getProfileDetails();
+              }
+            });
+          } else {
+            var currentUserId = prefs.getInt('userId')!;
+
+            //======>
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => ChatMessagePage(
+                  receiverId: provider.sellerId,
+                  currentUserId: currentUserId,
+                  userName: provider.serviceAllDetails.serviceSellerName,
+                ),
+              ),
+            );
+          }
         },
         child: Container(
           padding: const EdgeInsets.only(left: 13, bottom: 6, top: 6),

@@ -15,7 +15,9 @@ class CategoryService with ChangeNotifier {
       var connection = await checkConnection();
       if (connection) {
         var response = await http.get(Uri.parse('$baseApi/category'));
-
+        print('**************************************************');
+        print(response.body);
+        print('**************************************************');
         if (response.statusCode == 201) {
           categories = CategoryModel.fromJson(jsonDecode(response.body));
 
