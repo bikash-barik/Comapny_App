@@ -43,7 +43,7 @@ class BottomNav extends StatelessWidget {
                   color: currentIndex == 1 ? cc.primaryColor : cc.greyFour,
                   semanticsLabel: 'Acme Logo'),
             ),
-            label: lnProvider.getString('Orders'),
+            label: lnProvider.getString('Job'),
           ),
           BottomNavigationBarItem(
             icon: Container(
@@ -52,7 +52,7 @@ class BottomNav extends StatelessWidget {
                   color: currentIndex == 2 ? cc.primaryColor : cc.greyFour,
                   semanticsLabel: 'Acme Logo'),
             ),
-            label: lnProvider.getString('Saved'),
+            label: lnProvider.getString('About'),
           ),
           BottomNavigationBarItem(
             icon: Container(
@@ -61,7 +61,7 @@ class BottomNav extends StatelessWidget {
                   color: currentIndex == 3 ? cc.primaryColor : cc.greyFour,
                   semanticsLabel: 'Acme Logo'),
             ),
-            label: lnProvider.getString('Search'),
+            label: lnProvider.getString('Contact Us'),
           ),
           BottomNavigationBarItem(
             icon: Container(
@@ -70,7 +70,7 @@ class BottomNav extends StatelessWidget {
                   color: currentIndex == 4 ? cc.primaryColor : cc.greyFour,
                   semanticsLabel: 'Acme Logo'),
             ),
-            label: lnProvider.getString('Menu'),
+            label: lnProvider.getString('Profile'),
           ),
         ],
       ),

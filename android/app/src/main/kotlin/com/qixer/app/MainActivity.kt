@@ -1,4 +1,4 @@
-package com.gippyservice.gippy_buyer
+package com.glowtechmorservice.glowtechmor
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -6,15 +6,15 @@ import 'package:qixer/service/profile_service.dart';
 import 'package:qixer/service/push_notification_service.dart';
 import 'package:qixer/service/searchbar_with_dropdown_service.dart';
 import 'package:qixer/view/auth/login/login.dart';
+import 'package:qixer/view/home/componetgtm/AboutGtmPage.dart';
+import 'package:qixer/view/home/componetgtm/ContactUsGTMPage.dart';
+import 'package:qixer/view/home/componetgtm/JobGtmPage.dart';
 import 'package:qixer/view/home/home.dart';
 import 'package:qixer/view/notification/push_notification_helper.dart';
-import 'package:qixer/view/tabs/saved_item_page.dart';
-import 'package:qixer/view/tabs/search/search_tab.dart';
 import 'package:qixer/view/tabs/settings/menu_page.dart';
 import 'package:qixer/view/utils/responsive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
-import '../tabs/orders/orders_page.dart';
 import '../utils/others_helper.dart';
 import 'bottom_nav.dart';
 
@@ -88,9 +88,9 @@ class _HomePageState extends State<LandingPage> {
   //Bottom nav pages
   final List<Widget> _children = [
     const Homepage(),
-    const OrdersPage(),
-    const SavedItemPage(),
-    const SearchTab(),
+    const JobGtmPage(),
+    const AboutGtmPage(),
+    const ContactUsGTMPage(),
     const MenuPage(),
   ];
 

@@ -171,7 +171,7 @@ class MyApp extends StatelessWidget {
         builder: (context, rtlProvider, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Qixer',
+            title: 'Glowtechmor',
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,

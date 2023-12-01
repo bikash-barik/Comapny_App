@@ -82,7 +82,7 @@ class MenuNameImageSection extends StatelessWidget {
                   ),
 
                   //Grid cards
-                  const SettingsPageGrid(),
+                  // const SettingsPageGrid(),
                 ],
               ),
 

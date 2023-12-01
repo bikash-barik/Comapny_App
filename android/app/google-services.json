@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:459121000418:android:6427657ac38e9c06df43bb",
         "android_client_info": {
-          "package_name": "com.gippyservice.gippy_buyer"
+          "package_name": "com.glowtechmorservice.glowtechmor"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "459121000418-23rrh89hk8dog02r4jpv8a7a7fkdcm5m.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.gippyservice.gippy_buyer",
+            "package_name": "com.glowtechmorservice.glowtechmor",
             "certificate_hash": "30a06d5b7db695bae46e802ba55c98cff7174e11"
           }
         },
@@ -25,7 +25,7 @@
           "client_id": "459121000418-6c5ls2v4chpjhu806nr76rjvonuvicdm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.gippyservice.gippy_buyer",
+            "package_name": "com.glowtechmorservice.glowtechmor",
             "certificate_hash": "6bcce48d491e775a0596cc33bba731e29833a5ca"
           }
         },
